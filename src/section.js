@@ -19,10 +19,13 @@ const Section =() => {
       title: 'ICU ROOM 302',
       
       data: 
-    //   [
-    //     'Gamal Hassan',
+      // [
+      //   'Gamal Hassan',
+      //   'Aziz Sarhan',
+      //   'Soad Roshdy',
+      //   'Farid Mohamed',
 
-    //   ]
+      // ],
       [
           {
             name: 'Gamal Hassan',
@@ -54,9 +57,11 @@ const Section =() => {
         data:
         // [
         //     'Kareem Abdel-Aziz',
-        //     'Sandra Fawzy'
+        //     'Sandra Fawzy',
+        //     'Eslam Salah',
+        //     'Ayat Hassan',
 
-        // ]
+        // ],
         [
             {
               name: 'Kareem Abdel-Aziz',
@@ -97,7 +102,6 @@ const Section =() => {
 
     const navigation = useNavigation()
     const clickHandle =() =>{
-        console.log("hey");
          navigation.navigate("Patient");
     }
     
@@ -132,7 +136,7 @@ const Section =() => {
     <SectionList
       keyExtractor={(index) => index.toString()}
       sections={DATA}
-      renderItem={ oneitem}
+      renderItem={oneitem}
       renderSectionHeader={ sectionItem}
       ItemSeparatorComponent={separateItem}
     

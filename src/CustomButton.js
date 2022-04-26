@@ -20,11 +20,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingVertical: 12,
     paddingHorizontal: 32,
-    marginLeft: 180,
+    marginTop:10,
+    marginLeft: 100,
     borderRadius: 30,
     elevation: 3,
     backgroundColor: "#3ea9e2",
-    width: width*0.44
+    width: width*0.5
   },
   text: {
     fontSize: 16,

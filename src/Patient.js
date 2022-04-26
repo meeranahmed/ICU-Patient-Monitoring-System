@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import React from "react";
 import { useEffect, useState } from 'react';
 import {
@@ -12,11 +12,11 @@ import CustomButton from './CustomButton';
 const Patient =() => {
 
   const [toggle, setToggle] = useState(false);
-  const [chartData, setChartData] = useState([]);
+  const [chartData, setChartData] = useState([0,0]);
   const [text, setText] = useState("Show Humidity");
   const [Title , setTitle]=useState("Patient Temperature Chart");
   const [ySuffix,setySuffix]=useState("C");
- // const [sec , setSec] = useState(0);
+  let [sec , setSec] = useState(0);
   let data;
   let temp = [];
   let humi = [];
@@ -29,11 +29,35 @@ const Patient =() => {
     setySuffix(toggle ? "C" : "%");
   };
   
-  
 
+
+  // const postReq = async (id) => {
+  //   console.log("hey")
+  //     try {
+  //         await fetch(
+  //             'https://webhook.site/48284bde-5906-4c38-a26f-ffb64c127335',
+  //             {
+  //               method: 'POST',
+  //               mode:'no-cors',
+  //               headers: { 'accept':'application/json',
+  //                         'Content-Type': 'application/json'
+  //                         },
+  //               body: JSON.stringify({ value: id })
+  //           })
+  //     }
+  //     catch (error) {
+  //         console.error(error);
+  //     }
+      
+  // }
+  
+  setInterval(() => {
+    setSec(sec = sec+1)
+  }, 5000)
 
   const dataURL = "http://192.168.100.34:5000/"; 
   useEffect(() => {
+    console.log("hey")
     fetch(dataURL)
       .then((response) => response.json()) // get response, convert to json
       .then((json) => {
@@ -48,7 +72,8 @@ const Patient =() => {
        // console.log(json);
       })
       .catch((error) => alert(error)) // display errors
-  }, [toggle]);
+
+  }, [sec]);
 
     
 
@@ -59,13 +84,14 @@ const Patient =() => {
     return(
       <View>
         <Text style={{
-          marginVertical:70,
-          fontSize:30,
+          marginVertical:40,
+          fontSize:28,
           textAlign:"center",
           fontWeight:"bold",
           color:"#3ea9e2",
           
         }}>{Title}</Text>
+        <ScrollView vertical={true}>
         <LineChart
           data={{
             labels: label,
@@ -100,7 +126,11 @@ const Patient =() => {
           }}
           
         />
-        <CustomButton title={text} clickHandle={toggleHandler} />
+        
+        <CustomButton  title={text} clickHandle={toggleHandler} />
+        {/* <CustomButton  title="Stop Sensor" clickHandle={ postReq(0) } />
+        <CustomButton  title="Start Sensor" clickHandle={ postReq(1) } /> */}
+        </ScrollView>
       </View>
     );
 }
