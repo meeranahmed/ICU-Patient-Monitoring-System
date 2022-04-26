@@ -1,4 +1,4 @@
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View ,StyleSheet, Pressable} from "react-native";
 import React from "react";
 import { useEffect, useState } from 'react';
 import {
@@ -6,6 +6,7 @@ import {
 } from 'react-native-chart-kit';
 
 import CustomButton from './CustomButton';
+
 
 
 
@@ -31,25 +32,25 @@ const Patient =() => {
   
 
 
-  // const postReq = async (id) => {
-  //   console.log("hey")
-  //     try {
-  //         await fetch(
-  //             'https://webhook.site/48284bde-5906-4c38-a26f-ffb64c127335',
-  //             {
-  //               method: 'POST',
-  //               mode:'no-cors',
-  //               headers: { 'accept':'application/json',
-  //                         'Content-Type': 'application/json'
-  //                         },
-  //               body: JSON.stringify({ value: id })
-  //           })
-  //     }
-  //     catch (error) {
-  //         console.error(error);
-  //     }
+  const postReq = (id) => {
+    console.log(id)
+    
+      try {
+           fetch(
+              'http://192.168.100.34:8000/post',
+              {
+                method: 'POST',
+                headers: { 'accept':'application/json',
+                          'Content-Type': 'application/json'
+                          },
+                body: JSON.stringify({ value: id })
+            })
+      }
+      catch (error) {
+          console.error(error);
+      }
       
-  // }
+  }
   
   setInterval(() => {
     setSec(sec = sec+1)
@@ -57,7 +58,6 @@ const Patient =() => {
 
   const dataURL = "http://192.168.100.34:5000/"; 
   useEffect(() => {
-    console.log("hey")
     fetch(dataURL)
       .then((response) => response.json()) // get response, convert to json
       .then((json) => {
@@ -128,11 +128,41 @@ const Patient =() => {
         />
         
         <CustomButton  title={text} clickHandle={toggleHandler} />
-        {/* <CustomButton  title="Stop Sensor" clickHandle={ postReq(0) } />
-        <CustomButton  title="Start Sensor" clickHandle={ postReq(1) } /> */}
         </ScrollView>
+        <View>
+          {/* <CustomButton  title="Stop Sensor" onPress={() => { postReq(0)} } />
+          <CustomButton  title="Start Sensor" onPress={() => {postReq(1)} } /> */}
+          <Pressable style={styles.button} onPress={() => { postReq(0)}}>
+            <Text style={styles.text}>Stop Sensor</Text>
+          </Pressable>
+          <Pressable style={styles.button} onPress={() => { postReq(1)}}>
+            <Text style={styles.text}>Start Sensor</Text>
+          </Pressable>
+        </View>
       </View>
     );
 }
+
+const styles = StyleSheet.create({
+  button: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    marginTop:10,
+    marginLeft: 100,
+    borderRadius: 30,
+    elevation: 3,
+    backgroundColor: "#3ea9e2",
+    width: 190
+  },
+  text: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    color: "white",
+  },
+});
 
 export default Patient
