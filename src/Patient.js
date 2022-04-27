@@ -23,6 +23,7 @@ const Patient =() => {
   let temp = [];
   let humi = [];
   let label =[];
+  
 
   const toggleHandler = () => {
     setToggle(!toggle);
@@ -41,7 +42,7 @@ const Patient =() => {
     
       try {
            fetch(
-              'http://192.168.100.34:8000/post',
+              'http://172.28.132.236:5000/sendstate',
               {
                 method: 'POST',
                 headers: { 'accept':'application/json',
@@ -60,9 +61,9 @@ const Patient =() => {
   
   setInterval(() => {
     setSec(sec = sec+1)
-  }, 5000)
+  }, 10000)
 
-  const dataURL = "http://192.168.100.34:5000/"; 
+  const dataURL = "http://172.28.132.236:5000/"; 
   useEffect(() => {
     console.log(value)
     fetch(dataURL)
@@ -76,6 +77,7 @@ const Patient =() => {
         });
         setChartData(toggle ? humi : temp);
         
+        
        // console.log(json);
       })
       .catch((error) => alert(error)) // display errors
@@ -86,7 +88,8 @@ const Patient =() => {
     
 
 
-  console.log()
+  console.log("chartData" , chartData); 
+  chartData.splice(8,2)
   console.log("chartData" , chartData); 
 
     return(
@@ -139,7 +142,7 @@ const Patient =() => {
         </ScrollView>
         <View>
           {/* <CustomButton  title="Stop Sensor" onPress={() => { postReq(0)} } />
-          <CustomButton  title="Start Sensor" onPress={() => {postReq(1)} } /> */}
+          <CustomButton  title="Start Sensor" onPress={() => {postReq(1)} } />  */}
           <Pressable style={styles.button} onPress={() => { postReq(0,value)}}>
             <Text style={styles.text}>Stop Sensor</Text>
           </Pressable>
