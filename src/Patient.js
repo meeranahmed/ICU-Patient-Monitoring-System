@@ -13,10 +13,11 @@ import CustomButton from './CustomButton';
 const Patient =() => {
 
   const [toggle, setToggle] = useState(false);
-  const [chartData, setChartData] = useState([0,0]);
+  const [chartData, setChartData] = useState([0]);
   const [text, setText] = useState("Show Humidity");
   const [Title , setTitle]=useState("Patient Temperature Chart");
   const [ySuffix,setySuffix]=useState("C");
+  let [value , setValue] = useState(0);
   let [sec , setSec] = useState(0);
   let data;
   let temp = [];
@@ -28,12 +29,15 @@ const Patient =() => {
     setText(toggle ? "Show Humidity" : "Show Temp");
     setTitle(toggle ? "Patient Temperature Chart" : "Patient Humidity Chart");
     setySuffix(toggle ? "C" : "%");
+    setValue(!toggle ? 1:0)
+   
   };
   
 
 
-  const postReq = (id) => {
+  const postReq = (id , sensor) => {
     console.log(id)
+    console.log(sensor)
     
       try {
            fetch(
@@ -43,7 +47,9 @@ const Patient =() => {
                 headers: { 'accept':'application/json',
                           'Content-Type': 'application/json'
                           },
-                body: JSON.stringify({ value: id })
+                body: JSON.stringify({ 
+                  state: id,
+                  val : sensor})
             })
       }
       catch (error) {
@@ -58,6 +64,7 @@ const Patient =() => {
 
   const dataURL = "http://192.168.100.34:5000/"; 
   useEffect(() => {
+    console.log(value)
     fetch(dataURL)
       .then((response) => response.json()) // get response, convert to json
       .then((json) => {
@@ -72,6 +79,7 @@ const Patient =() => {
        // console.log(json);
       })
       .catch((error) => alert(error)) // display errors
+      
 
   }, [sec]);
 
@@ -132,10 +140,10 @@ const Patient =() => {
         <View>
           {/* <CustomButton  title="Stop Sensor" onPress={() => { postReq(0)} } />
           <CustomButton  title="Start Sensor" onPress={() => {postReq(1)} } /> */}
-          <Pressable style={styles.button} onPress={() => { postReq(0)}}>
+          <Pressable style={styles.button} onPress={() => { postReq(0,value)}}>
             <Text style={styles.text}>Stop Sensor</Text>
           </Pressable>
-          <Pressable style={styles.button} onPress={() => { postReq(1)}}>
+          <Pressable style={styles.button} onPress={() => { postReq(1,value)}}>
             <Text style={styles.text}>Start Sensor</Text>
           </Pressable>
         </View>
