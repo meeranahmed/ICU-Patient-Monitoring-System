@@ -161,15 +161,17 @@ const styles = StyleSheet.create({
         backgroundColor:'#ccc'
     },
     item:{
-    marginLeft:15,
+    marginLeft:20,
     paddingVertical:15,
     },
     name:{
-    fontSize:22,
+    fontSize:30,
     fontWeight:'600'
     },
     readings:{
-        marginTop:10
+        marginTop:10,
+        fontSize:15,
+        fontWeight:'500'
     }
 });
 

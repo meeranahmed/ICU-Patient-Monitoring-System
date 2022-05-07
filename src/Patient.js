@@ -6,6 +6,9 @@ import {
 } from 'react-native-chart-kit';
 
 import CustomButton from './CustomButton';
+import { Dimensions } from "react-native";
+
+var width = Dimensions.get('window').width;
 
 
 
@@ -13,7 +16,7 @@ import CustomButton from './CustomButton';
 const Patient =() => {
 
   const [toggle, setToggle] = useState(false);
-  const [chartData, setChartData] = useState([0]);
+  let [chartData, setChartData] = useState([0,0]);
   const [text, setText] = useState("Show Humidity");
   const [Title , setTitle]=useState("Patient Temperature Chart");
   const [ySuffix,setySuffix]=useState("C");
@@ -42,7 +45,7 @@ const Patient =() => {
     
       try {
            fetch(
-              'http://172.28.132.236:5000/sendstate',
+              'http://192.168.100.34:5000/sendstate',
               {
                 method: 'POST',
                 headers: { 'accept':'application/json',
@@ -61,19 +64,18 @@ const Patient =() => {
   
   setInterval(() => {
     setSec(sec = sec+1)
-  }, 10000)
+  }, 2000)
 
-  const dataURL = "http://172.28.132.236:5000/"; 
+  const dataURL = "http://192.168.100.34:5000/"; 
   useEffect(() => {
-    console.log(value)
     fetch(dataURL)
       .then((response) => response.json()) // get response, convert to json
       .then((json) => {
         data = json;
         //setChartData(data);
         data.map((x) => {
-          temp.push(x.Temperature_C);
-          humi.push(x.Humadity);
+          temp.push(parseInt(x.Temperature_C));
+          humi.push(parseInt(x.Humadity));
         });
         setChartData(toggle ? humi : temp);
         
@@ -89,15 +91,15 @@ const Patient =() => {
 
 
   console.log("chartData" , chartData); 
-  chartData.splice(8,2)
-  console.log("chartData" , chartData); 
+
 
     return(
       <View>
         <Text style={{
           marginVertical:40,
           fontSize:28,
-          textAlign:"center",
+          // textAlign:"center",
+          marginLeft:250,
           fontWeight:"bold",
           color:"#3ea9e2",
           
@@ -112,7 +114,7 @@ const Patient =() => {
               }
             ]
           }}
-          width={300} 
+          width={750} 
           height={400}
           yAxisSuffix={ySuffix}
           chartConfig={{
@@ -122,7 +124,8 @@ const Patient =() => {
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             style: {
-              borderRadius: 16
+              borderRadius: 16,
+        
             },
             propsForDots: {
               r: "6",
@@ -161,11 +164,11 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 32,
     marginTop:10,
-    marginLeft: 100,
+    marginLeft: 180,
     borderRadius: 30,
     elevation: 3,
     backgroundColor: "#3ea9e2",
-    width: 190
+    width: width*.5
   },
   text: {
     fontSize: 16,
