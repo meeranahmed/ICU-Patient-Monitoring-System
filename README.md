@@ -1,5 +1,5 @@
 # IOT-Based-ICU-Patient-Monitoring-System
-It is a system that collects patient information with the help of a few sensors using WiFi module to keep the Doctors updated all time over internet
+It is a system that collects patient vital signs with the help of a few sensors and send them to the doctor using WiFi module to keep the Doctors updated all the time.
 
 <p align="center"><img src="./imgs/06.png" alt="Original" width="400"/></p>
 
